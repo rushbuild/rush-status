@@ -1,0 +1,51 @@
+# Rush build status
+
+Rush is an independent build engine for Bazel projects, written in Rust.
+No JVM, no Bazel code. It consumes unmodified Bazel trees — BUILD files,
+`.bzl` macros, Bzlmod module graphs, toolchains — and executes them with
+Bazel-parity semantics: same artifacts, same select() behavior, same test
+outcomes. The bar we hold ourselves to is byte parity: where we claim
+support, rush's outputs hash-match Bazel's.
+
+This repository tracks public progress and statistics for the project.
+**The rush source is not yet public.** We are working toward an
+open-source release and are looking for interested parties to collaborate
+on a polished first release — build-system engineers, and maintainers of
+large Bazel codebases who want a fast second implementation or a
+conformance probe for their rule stacks. Open an issue here or contact
+Luis Chamberlain <mcgrof@do-not-panic.com>.
+
+## Headline results
+
+| Workload | Result |
+|----------|--------|
+| TensorFlow 2.15 (unmodified) | Builds; **463/463** CPU `tf_cc_test` targets pass |
+| `libtensorflow_cc.so` | Links, dlopen-loadable (`RTLD_NOW`), runs real workloads |
+| TensorFlow GPU (ROCm, TF 2.17) | GPU `tf_cc_test` builds and passes on an AMD Radeon Pro W7900 |
+| Modular stdlib (pin 2026-08-04) | `std.mojoc` **byte-identical** to Bazel; 335/335 test targets build; **264 tests verified green** |
+| Modular GPU (H100) | tiled_matmul builds, runs, validates; output byte-identical to Bazel over 10 alternating runs |
+| Warm no-op, 335-target corpus | rush **0.02 s** vs Bazel 0.33 s |
+| Single-file incremental | rush **2.0 s** vs Bazel 4.7 s |
+
+Honesty notes: at TensorFlow scale (18–21k targets) rush's warm no-op is
+still slower than Bazel's; the daemon architecture that produces the
+0.02 s number above is new and being proven upward. Detailed gap lists
+live in the status pages — we publish what does not work yet with the
+same care as what does.
+
+## Status pages
+
+- [Modular](status/modular.md) — Bzlmod + `rules_mojo` + Mojo stdlib corpus
+- [TensorFlow](status/tensorflow.md) — the flagship C++ workload
+
+## Methodology
+
+- **No stubs.** Every supported rule executes real toolchains and produces
+  real artifacts. Placeholder implementations are rejected in review and by
+  pre-commit hooks.
+- **Byte parity over green checkmarks.** Artifact hashes are compared
+  against Bazel's outputs on the same tree and configuration.
+- **Unmodified upstream sources.** Snags are rush bugs (fixed in rush) or
+  upstreamable fixes to the target project — never local hack patches.
+- **Receipts.** Every commit carries an AI-collaboration receipt block
+  (agent, session, token accounting) under the MACP convention.
