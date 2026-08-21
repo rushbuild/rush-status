@@ -12,17 +12,20 @@ The census enumerates every label in the repo (~17.6k), Bazel builds the
 configurable non-GPU subset with `--keep_going` (4,175 targets succeed on a
 GPU-less host), and rush builds the same 4,175-label ledger:
 
-- **Rush builds 4,174 of 4,175 (99.98%).**
-- mojoc byte-parity holds for 38 of 39 comparable mojo_library artifacts.
-  Mojo compiles are Bazel-sandbox faithful: staged sources, relative
-  positional roots, Bazel's object naming and -I order. The one hash diff
-  (builtin_kernels, a wheel-import consumer) builds correctly and is the
-  next parity target.
-- The single open label, `generate_pycross_bzl_lock`, is gated on the
-  py-execution subsystem: its genrule tool is a rules_python `py_binary`
-  needing a real launcher plus pycross wheel-library unpacking on
-  PYTHONPATH. That is roadmap work, not a conformance bug — everything
-  else Bazel builds on this tree, rush builds.
+- **Rush builds 4,175 of 4,175 (100%).** Every target Bazel builds on
+  this tree, rush builds — including 1,063 Python targets built for real
+  by the py-execution subsystem (hermetic rules_python interpreters,
+  Bazel `imports` semantics, 455 pip wheels installed by a faithful
+  WheelInstall equivalent).
+- End-to-end Python proof: `generate_pycross_bzl_lock` runs `uv lock`
+  over the network, installs the packaging wheel, executes the generator
+  under hermetic Python 3.13, and its output is **byte-identical** to
+  the checked-in 32,586-line `pycross_lock_file.bzl`.
+- mojoc byte-parity holds for 38 of 39 comparable mojo_library
+  artifacts. Mojo compiles are Bazel-sandbox faithful: staged sources,
+  relative positional roots, Bazel's object naming and -I order. The one
+  hash diff (builtin_kernels, a wheel-import consumer) builds correctly
+  and is the next parity target.
 
 ## What works
 
@@ -50,16 +53,12 @@ GPU-less host), and rush builds the same 4,175-label ledger:
 
 ## What's left — do these
 
-- **Build the py-execution subsystem.** Route rules_python's `py_binary`/
-  `py_test` rule() identities to real instances producing launchers with
-  hermetic interpreters and runfiles, and implement pycross_wheel_library
-  wheel unpacking so pip deps land on PYTHONPATH. Unblocks the last
-  Modular label and TensorFlow's Python slice alike.
+- **Run the py_test corpus.** The py targets now BUILD; execute them
+  with Bazel's test contract (pytest runner env, mojo_test_environment
+  make-vars, runfiles) and score against `bazel test`.
 - **Close the builtin_kernels mojoc diff.** The wheel-import consumer's
   hash differs from Bazel's; diff the MojoPrecompile argv/input set for
   the mojo_import `-I` placement.
-- **Honor `target_compatible_with`.** Skip platform-incompatible targets
-  (macOS-only stdlib tests) instead of failing their compiles.
 - **Add an llvm-lit test runner.** 48 stdlib tests (including every
   compile-fail negative test) are lit-driven. Drive `llvm-lit` + FileCheck
   the way `bazel/internal/lit.bzl` does.
