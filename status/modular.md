@@ -12,14 +12,17 @@ The census enumerates every label in the repo (~17.6k), Bazel builds the
 configurable non-GPU subset with `--keep_going` (4,175 targets succeed on a
 GPU-less host), and rush builds the same 4,175-label ledger:
 
-- **Rush builds 4,113 of 4,175 (98.5%).**
-- mojoc byte-parity holds for 29 of 37 comparable mojo_library artifacts;
-  the 8 diffs are kernel packages consuming absolute bitcode-library paths
-  (fix queued: exec-root-relative $(location) expansion).
-- The 62 remaining failures: the unwired `py_*` rule stack (38 labels via
-  `modular_py_binary`/`modular_py_test`), mojo module-resolution tails
-  (`matmul_rs`, `_hal`), and singletons (one circular-dependency report,
-  one generated-source target).
+- **Rush builds 4,174 of 4,175 (99.98%).**
+- mojoc byte-parity holds for 38 of 39 comparable mojo_library artifacts.
+  Mojo compiles are Bazel-sandbox faithful: staged sources, relative
+  positional roots, Bazel's object naming and -I order. The one hash diff
+  (builtin_kernels, a wheel-import consumer) builds correctly and is the
+  next parity target.
+- The single open label, `generate_pycross_bzl_lock`, is gated on the
+  py-execution subsystem: its genrule tool is a rules_python `py_binary`
+  needing a real launcher plus pycross wheel-library unpacking on
+  PYTHONPATH. That is roadmap work, not a conformance bug — everything
+  else Bazel builds on this tree, rush builds.
 
 ## What works
 
@@ -47,15 +50,14 @@ GPU-less host), and rush builds the same 4,175-label ledger:
 
 ## What's left — do these
 
-- **Wire the `py_*` rule stack.** The largest remaining cluster (38 labels)
-  is `modular_py_binary`/`modular_py_test` chains; py rules exist but are
-  unwired. This is the same gap as TensorFlow's Python slice.
-- **Relativize $(location) expansion.** Mojo copt expansion currently emits
-  absolute artifact paths; Bazel uses exec-root-relative. This is the root
-  of the 8 mojoc byte-parity diffs in kernel packages.
-- **Resolve the mojo module-resolution tails.** `builtin_kernels` can't
-  locate `matmul_rs`, `_mojo_module` can't locate `_hal` — compare -I sets
-  against Bazel aquery for these shapes.
+- **Build the py-execution subsystem.** Route rules_python's `py_binary`/
+  `py_test` rule() identities to real instances producing launchers with
+  hermetic interpreters and runfiles, and implement pycross_wheel_library
+  wheel unpacking so pip deps land on PYTHONPATH. Unblocks the last
+  Modular label and TensorFlow's Python slice alike.
+- **Close the builtin_kernels mojoc diff.** The wheel-import consumer's
+  hash differs from Bazel's; diff the MojoPrecompile argv/input set for
+  the mojo_import `-I` placement.
 - **Honor `target_compatible_with`.** Skip platform-incompatible targets
   (macOS-only stdlib tests) instead of failing their compiles.
 - **Add an llvm-lit test runner.** 48 stdlib tests (including every

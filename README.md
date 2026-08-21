@@ -22,7 +22,7 @@ Luis Chamberlain <mcgrof@do-not-panic.com>.
 | TensorFlow 2.15 (unmodified) | Builds; **463/463** CPU `tf_cc_test` targets pass |
 | `libtensorflow_cc.so` | Links, dlopen-loadable (`RTLD_NOW`), runs real workloads |
 | TensorFlow GPU (ROCm, TF 2.17) | GPU `tf_cc_test` builds and passes on an AMD Radeon Pro W7900 |
-| Modular whole-repo (pin 2026-07-30) | **4,113 of 4,175 (98.5%)** Bazel-buildable targets build under rush; 29/37 comparable `.mojoc` artifacts byte-identical |
+| Modular whole-repo (pin 2026-07-30) | **4,174 of 4,175 (99.98%)** Bazel-buildable targets build under rush; 38/39 comparable `.mojoc` artifacts byte-identical |
 | Modular stdlib (pin 2026-08-04) | `std.mojoc` **byte-identical** to Bazel; 335/335 test targets build; **264 tests verified green** |
 | Modular GPU (H100) | tiled_matmul builds, runs, validates; output byte-identical to Bazel over 10 alternating runs |
 | Warm no-op, 335-target corpus | rush **0.02 s** vs Bazel 0.33 s |
