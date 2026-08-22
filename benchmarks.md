@@ -14,9 +14,10 @@ does (rush's own disk cache is cleared for cold runs).
 
 | Scenario (whole repo, 4,175 targets) | rush | Bazel (no disk cache) | Bazel (warm disk cache) |
 |---|---:|---:|---:|
-| Cold build | **368 s** | 611 s | 63 s |
+| Cold build | **362 s** | 611 s | — |
+| Repeat-cold (outputs wiped, caches warm) | **32 s** (14.6 s warm page cache) | — | 63 s |
 | Warm no-op | **0.05 s** | 12.6 s | 13.2 s |
-| Incremental (1 file touched) | 334 s | 29 s | 13 s |
+| Incremental (1 file touched) | **14.6 s** | 29 s | 13 s |
 
 | Scenario (stdlib slice, 945 targets) | rush | Bazel (no disk cache) | Bazel (warm disk cache) |
 |---|---:|---:|---:|
@@ -31,20 +32,21 @@ Reading the table honestly:
   all 96 cores with no JVM, no aspect overhead, and no sandbox setup tax.
 - **Warm no-op: rush is ~250× faster** (0.05 s vs ~13 s). The rushd
   daemon's inotify dirty-set answers "nothing changed" without scanning.
-- **Incremental is rush's open weakness at repo scale.** Bazel's
-  content-based early cutoff notices that a comment-only edit produces a
-  byte-identical `std.mojoc` and prunes the entire downstream graph
-  (29 s); rush's dependency stamps are provenance-keyed, so the same edit
-  rebuilds the Mojo world (334 s). At stdlib scale the effect washes out
-  (23 s vs 24 s). Fix queued: content-keyed producer stamps to get the
-  same early-cutoff behavior.
-- A warm Bazel disk cache beats everything for repeat-cold builds (63 s).
-  Rush's current cache is an **action metadata cache**: it can skip
-  actions whose outputs still exist, but it cannot reconstruct deleted
-  outputs from cached bytes, so rush has no equivalent repeat-cold path
-  yet. A content-addressed store with rematerialization is in
-  development. The no-cache columns are the honest engine-vs-engine
-  compile comparison.
+- **Incremental: rush now has content-based early cutoff.** Output
+  stamps carry each artifact's value (a versioned BLAKE3 fingerprint over
+  content, kind and observable filesystem properties — with thin-archive
+  members folded in) instead of the producer's identity. A comment-only
+  edit re-runs one compiler, sees `std.mojoc` come back byte-identical,
+  and prunes the entire downstream graph: 334 s before, **14.6 s** now —
+  past Bazel's 29 s no-cache result and matching its 13 s cached result.
+- **Repeat-cold: rush now has a real CAS.** Action results record full
+  output records (fingerprints, content digests, modes, symlinks, tree
+  structure) and output bytes live in a content-addressed store; deleting
+  the entire output tree and rebuilding restores from cache in **32 s**
+  (14.6 s with a warm page cache) versus Bazel's 63 s. Every restored
+  blob is digest-verified during the copy — corrupt or truncated cache
+  content becomes a miss, never a wrong build. Storing into the CAS costs
+  nothing measurable on cold builds (362 s vs the 368 s pre-CAS baseline).
 
 ## GPU runtime correctness (H100)
 

@@ -39,13 +39,13 @@ same care as what does.
 
 ![Whole repo build times](graphs/bench-full.svg)
 
-Cold whole-repo compile: **rush 368 s vs Bazel 611 s** (true cold, no
-disk cache); warm no-op **0.05 s vs 12.6 s**. Full methodology, the
-stdlib-scale chart, and the honest incremental-build caveat (Bazel's
-content-based early cutoff currently wins there) are in
-[benchmarks.md](benchmarks.md), together with the **H100 GPU runtime
-correctness result: zero divergences** — every comparable Bazel-green
-GPU kernel test also passes when built by rush.
+Whole-repo Modular tree, 96 cores: cold compile **rush 362 s vs Bazel
+611 s**; repeat-cold from cache (outputs wiped) **32 s vs 63 s**;
+single-file incremental **14.6 s vs 29 s** (content-based early cutoff);
+warm no-op **0.05 s vs 12.6 s**. Methodology and the stdlib-scale chart
+are in [benchmarks.md](benchmarks.md), together with the **H100 GPU
+runtime correctness result: zero divergences** — every comparable
+Bazel-green GPU kernel test also passes when built by rush.
 
 ## Status pages
 
