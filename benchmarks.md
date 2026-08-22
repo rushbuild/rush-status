@@ -47,6 +47,17 @@ Reading the table honestly:
   blob is digest-verified during the copy — corrupt or truncated cache
   content becomes a miss, never a wrong build. Storing into the CAS costs
   nothing measurable on cold builds (362 s vs the 368 s pre-CAS baseline).
+- **Virtual artifacts (behind a flag) do not change these numbers, and
+  that is the honest result.** The next step after a CAS is to stop
+  writing bytes nobody reads: when a cached action's outputs are absent,
+  rush can publish only their value stamps and keep the content
+  CAS-backed, materializing it when something actually opens it. It
+  works — a whole-repo rebuild turns 1,357 cache restores into 1,357
+  virtual hits and leaves 23% less on disk (6.34 GB → 4.88 GB), and a
+  single-target build writes 531 KB instead of 16.4 MB — but on a
+  96-core host with the output tree in RAM, skipping 1.4 GB of restores
+  buys no wall-clock time. It is groundwork for remote caching, where
+  those same bytes would otherwise cross a network.
 
 ## GPU runtime correctness (H100)
 
