@@ -38,9 +38,13 @@ Reading the table honestly:
   rebuilds the Mojo world (334 s). At stdlib scale the effect washes out
   (23 s vs 24 s). Fix queued: content-keyed producer stamps to get the
   same early-cutoff behavior.
-- A warm Bazel disk cache beats everything for repeat-cold builds (63 s);
-  rush's disk cache plays the same role for its own repeat runs. The
-  no-cache columns are the honest engine-vs-engine compile comparison.
+- A warm Bazel disk cache beats everything for repeat-cold builds (63 s).
+  Rush's current cache is an **action metadata cache**: it can skip
+  actions whose outputs still exist, but it cannot reconstruct deleted
+  outputs from cached bytes, so rush has no equivalent repeat-cold path
+  yet. A content-addressed store with rematerialization is in
+  development. The no-cache columns are the honest engine-vs-engine
+  compile comparison.
 
 ## GPU runtime correctness (H100)
 

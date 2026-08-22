@@ -27,7 +27,7 @@ Luis Chamberlain <mcgrof@do-not-panic.com>.
 | Modular stdlib (pin 2026-08-04) | `std.mojoc` **byte-identical** to Bazel; 335/335 test targets build; **264 tests verified green** |
 | Modular GPU (H100) | tiled_matmul builds, runs, validates; output byte-identical to Bazel over 10 alternating runs |
 | Warm no-op, 335-target corpus | rush **0.02 s** vs Bazel 0.33 s |
-| Single-file incremental | rush **2.0 s** vs Bazel 4.7 s |
+| Single-file incremental, 335-target stdlib-test closure | rush **2.0 s** vs Bazel 4.7 s (small closure; see benchmarks.md for the whole-repo case, where Bazel's early cutoff currently wins) |
 
 Honesty notes: at TensorFlow scale (18–21k targets) rush's warm no-op is
 still slower than Bazel's; the daemon architecture that produces the
