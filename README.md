@@ -35,6 +35,18 @@ still slower than Bazel's; the daemon architecture that produces the
 live in the status pages — we publish what does not work yet with the
 same care as what does.
 
+## Build-time benchmarks
+
+![Whole repo build times](graphs/bench-full.svg)
+
+Cold whole-repo compile: **rush 368 s vs Bazel 611 s** (true cold, no
+disk cache); warm no-op **0.05 s vs 12.6 s**. Full methodology, the
+stdlib-scale chart, and the honest incremental-build caveat (Bazel's
+content-based early cutoff currently wins there) are in
+[benchmarks.md](benchmarks.md), together with the **H100 GPU runtime
+correctness result: zero divergences** — every comparable Bazel-green
+GPU kernel test also passes when built by rush.
+
 ## Status pages
 
 - [Modular](status/modular.md) — Bzlmod + `rules_mojo` + Mojo stdlib corpus
