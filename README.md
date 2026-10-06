@@ -22,6 +22,7 @@ stacks. Open an issue here or contact Luis Chamberlain
 | TensorFlow 2.15 (unmodified) | Builds; **463/463** CPU `tf_cc_test` targets pass |
 | `libtensorflow_cc.so` | Links, dlopen-loadable (`RTLD_NOW`), runs real workloads |
 | TensorFlow GPU (ROCm, TF 2.17) | GPU `tf_cc_test` builds and passes on an AMD Radeon Pro W7900 |
+| Linux with Lorenzo's v1 build-speedup series | Populated-cache native replay: **40.24 s** median vs Make **50.92 s** over three scouting pairs, with exact output parity; final 10-pair certificate pending |
 | Modular whole-repo (pin 2026-07-30) | **4,175 of 4,175 (100%)** Bazel-buildable targets build under rush, incl. 1,063 real Python builds; 38/39 comparable `.mojoc` artifacts byte-identical |
 | Modular pip lock pipeline | `uv lock` + wheel install + hermetic py_binary generator: output **byte-identical** to the checked-in 32,586-line lock file |
 | Modular stdlib (pin 2026-08-04) | `std.mojoc` **byte-identical** to Bazel; 335/335 test targets build; **264 tests verified green** |
@@ -111,6 +112,8 @@ the piece that matters most for a team sharing results across machines.
 
 - [Modular](status/modular.md) — Bzlmod + `rules_mojo` + Mojo stdlib corpus
 - [TensorFlow](status/tensorflow.md) — the flagship C++ workload
+- [Linux](status/linux.md) — native Kbuild capture, replay, parity, and the
+  performance certificate still in progress
 
 ## Methodology
 
