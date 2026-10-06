@@ -15,6 +15,16 @@ who want a fast second implementation or a conformance probe for their rule
 stacks. Open an issue here or contact Luis Chamberlain
 <mcgrof@do-not-panic.com>.
 
+## Speed benefits at a glance
+
+![Measured Rush speed benefits by workload and build mode](graphs/headline-speed.svg)
+
+There is no single honest "Rush speedup" for complex software. The benefit
+depends on whether the operation is a clean compile, cache restore,
+incremental edit, warm no-op, or populated-cache replay. The graphic keeps
+those modes separate and reports the exact Rush and reference medians behind
+each ratio. Linux remains a three-pair scouting result, not a certificate.
+
 ## Headline results
 
 ![Rush correctness coverage across three upstream trees](graphs/headline-coverage.svg)
