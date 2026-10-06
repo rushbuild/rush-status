@@ -21,6 +21,8 @@ root with a clean GNU Make build. It does **not** show that uncached Rush
 compilation is faster. An empty-cache Rush diagnostic took 12:02.92 and is
 currently far slower than Make.
 
+![Linux scouting build times](../graphs/linux-scouting.svg)
+
 ## Scouting result
 
 | Arm | Wall times | Median |
@@ -69,6 +71,8 @@ fixture required 1:12:20 to capture, 6:48.55 to derive, and 1:08:15 to
 assemble. That cost is acceptable for experimentation and repeated replay,
 but it is much too high for the eventual user-facing frontend. Reducing or
 eliminating this exporter path remains core work.
+
+![Linux graph-preparation costs](../graphs/linux-pipeline.svg)
 
 The target architecture is a supported Kbuild dialect and persistent native
 graph, while GNU Make remains the correctness oracle and bootstrap path.

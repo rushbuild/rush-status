@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500"
+     viewBox="0 0 1000 500" role="img"
+     aria-labelledby="title description">
+  <title id="title">Linux graph preparation costs</title>
+  <desc id="description">Horizontal bars show one-time capture, derivation,
+  and assembly durations for a complete fixture and capture and derivation
+  durations for the fresh candidate whose assembly was not run.</desc>
+  <defs>
+    <style>
+      .title { font: 700 26px 'DejaVu Sans', sans-serif; fill: #172033; }
+      .subtitle { font: 14px 'DejaVu Sans', sans-serif; fill: #596579; }
+      .group { font: 700 16px 'DejaVu Sans', sans-serif; fill: #172033; }
+      .label { font: 14px 'DejaVu Sans', sans-serif; fill: #3f4b5f; }
+      .small { font: 12px 'DejaVu Sans', sans-serif; fill: #596579; }
+      .value { font: 700 13px 'DejaVu Sans', sans-serif; fill: #172033; }
+      .grid { stroke: #dce2ea; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="1000" height="500" fill="#ffffff"/>
+  <text x="55" y="44" class="title">Linux graph preparation is still expensive</text>
+  <text x="55" y="71" class="subtitle">One-time setup costs, excluded from the 35.98-41.19 second replay measurements</text>
+
+  <line x1="240" y1="103" x2="240" y2="408" class="grid"/>
+  <line x1="330" y1="103" x2="330" y2="408" class="grid"/>
+  <line x1="420" y1="103" x2="420" y2="408" class="grid"/>
+  <line x1="510" y1="103" x2="510" y2="408" class="grid"/>
+  <line x1="600" y1="103" x2="600" y2="408" class="grid"/>
+  <line x1="690" y1="103" x2="690" y2="408" class="grid"/>
+  <line x1="780" y1="103" x2="780" y2="408" class="grid"/>
+  <line x1="870" y1="103" x2="870" y2="408" class="grid"/>
+  <line x1="960" y1="103" x2="960" y2="408" class="grid"/>
+  <text x="235" y="427" class="small">0</text>
+  <text x="322" y="427" class="small">10</text>
+  <text x="412" y="427" class="small">20</text>
+  <text x="502" y="427" class="small">30</text>
+  <text x="592" y="427" class="small">40</text>
+  <text x="682" y="427" class="small">50</text>
+  <text x="772" y="427" class="small">60</text>
+  <text x="862" y="427" class="small">70</text>
+  <text x="952" y="427" class="small">80</text>
+  <text x="570" y="451" class="small">minutes</text>
+
+  <text x="55" y="119" class="group">Complete fixture</text>
+  <text x="132" y="153" class="label">Capture</text>
+  <rect x="240" y="134" width="650.7" height="25" rx="4" fill="#1f5fa9"/>
+  <text x="898" y="152" class="value">72.3 m</text>
+  <text x="139" y="192" class="label">Derive</text>
+  <rect x="240" y="173" width="61.3" height="25" rx="4" fill="#2f8f83"/>
+  <text x="309" y="191" class="value">6.8 m</text>
+  <text x="115" y="231" class="label">Assemble</text>
+  <rect x="240" y="212" width="614.3" height="25" rx="4" fill="#c8781a"/>
+  <text x="862" y="230" class="value">68.3 m</text>
+
+  <text x="55" y="286" class="group">Fresh candidate</text>
+  <text x="132" y="320" class="label">Capture</text>
+  <rect x="240" y="301" width="645.1" height="25" rx="4" fill="#1f5fa9"/>
+  <text x="893" y="319" class="value">71.7 m</text>
+  <text x="139" y="359" class="label">Derive</text>
+  <rect x="240" y="340" width="58.3" height="25" rx="4" fill="#2f8f83"/>
+  <text x="306" y="358" class="value">6.5 m</text>
+  <text x="115" y="398" class="label">Assemble</text>
+  <rect x="240" y="379" width="720" height="25" rx="4" fill="#f1f3f6" stroke="#aeb7c4" stroke-dasharray="6 4"/>
+  <text x="252" y="397" class="label">NOT RUN - volatile workspace reclaimed</text>
+
+  <text x="55" y="481" class="small">These costs are preparation overhead, not replay latency; reducing or replacing the exporter path remains required.</text>
+</svg>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="540"
+     viewBox="0 0 1000 540" role="img"
+     aria-labelledby="title description">
+  <title id="title">Linux scouting build times</title>
+  <desc id="description">Grouped bars compare three populated-cache Rush
+  native replays with three clean Lorenzo-v1 GNU Make builds. Rush has a
+  40.24 second median and Make has a 50.92 second median.</desc>
+  <defs>
+    <style>
+      .title { font: 700 26px 'DejaVu Sans', sans-serif; fill: #172033; }
+      .subtitle { font: 14px 'DejaVu Sans', sans-serif; fill: #596579; }
+      .label { font: 14px 'DejaVu Sans', sans-serif; fill: #3f4b5f; }
+      .small { font: 12px 'DejaVu Sans', sans-serif; fill: #596579; }
+      .value { font: 700 13px 'DejaVu Sans', sans-serif; fill: #172033; }
+      .callout { font: 700 17px 'DejaVu Sans', sans-serif; fill: #1f5fa9; }
+      .grid { stroke: #dce2ea; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="1000" height="540" fill="#ffffff"/>
+  <text x="70" y="43" class="title">Linux build race: three scouting pairs</text>
+  <text x="70" y="70" class="subtitle">Lower is better | Rush populated-cache replay vs clean Lorenzo-v1 Make | -j32</text>
+
+  <line x1="90" y1="110" x2="90" y2="410" class="grid"/>
+  <line x1="90" y1="410" x2="920" y2="410" class="grid"/>
+  <line x1="90" y1="360" x2="920" y2="360" class="grid"/>
+  <line x1="90" y1="310" x2="920" y2="310" class="grid"/>
+  <line x1="90" y1="260" x2="920" y2="260" class="grid"/>
+  <line x1="90" y1="210" x2="920" y2="210" class="grid"/>
+  <line x1="90" y1="160" x2="920" y2="160" class="grid"/>
+  <line x1="90" y1="110" x2="920" y2="110" class="grid"/>
+  <text x="63" y="415" class="label">0</text>
+  <text x="53" y="365" class="label">10</text>
+  <text x="53" y="315" class="label">20</text>
+  <text x="53" y="265" class="label">30</text>
+  <text x="53" y="215" class="label">40</text>
+  <text x="53" y="165" class="label">50</text>
+  <text x="53" y="115" class="label">60</text>
+  <text x="20" y="265" class="small" transform="rotate(-90 20 265)">seconds</text>
+
+  <rect x="160" y="230.1" width="54" height="179.9" fill="#1f5fa9"/>
+  <rect x="218" y="155.4" width="54" height="254.6" fill="#c8781a"/>
+  <text x="160" y="222" class="value">35.98</text>
+  <text x="218" y="147" class="value">50.92</text>
+
+  <rect x="350" y="204.05" width="54" height="205.95" fill="#1f5fa9"/>
+  <rect x="408" y="144.8" width="54" height="265.2" fill="#c8781a"/>
+  <text x="350" y="196" class="value">41.19</text>
+  <text x="408" y="137" class="value">53.04</text>
+
+  <rect x="540" y="208.8" width="54" height="201.2" fill="#1f5fa9"/>
+  <rect x="598" y="159.25" width="54" height="250.75" fill="#c8781a"/>
+  <text x="540" y="201" class="value">40.24</text>
+  <text x="598" y="151" class="value">50.15</text>
+
+  <rect x="744" y="208.8" width="58" height="201.2" fill="#1f5fa9" stroke="#153f70" stroke-width="2"/>
+  <rect x="806" y="155.4" width="58" height="254.6" fill="#c8781a" stroke="#845012" stroke-width="2"/>
+  <text x="744" y="200" class="value">40.24</text>
+  <text x="806" y="147" class="value">50.92</text>
+
+  <text x="174" y="438" class="label">Pair 1</text>
+  <text x="364" y="438" class="label">Pair 2</text>
+  <text x="554" y="438" class="label">Pair 3</text>
+  <text x="766" y="438" class="label">Median</text>
+
+  <rect x="660" y="88" width="16" height="16" fill="#1f5fa9"/>
+  <text x="682" y="101" class="label">Rush replay</text>
+  <rect x="788" y="88" width="16" height="16" fill="#c8781a"/>
+  <text x="810" y="101" class="label">GNU Make</text>
+  <text x="690" y="475" class="callout">1.265x median speedup</text>
+  <text x="746" y="497" class="small">20.97% lower wall time</text>
+  <text x="70" y="523" class="small">Scouting only: final certificate requires at least 10 alternating pairs and a 95% CI lower bound above 1.0.</text>
+</svg>

@@ -17,6 +17,13 @@ stacks. Open an issue here or contact Luis Chamberlain
 
 ## Headline results
 
+![Rush correctness coverage across three upstream trees](graphs/headline-coverage.svg)
+
+Each bar is complete within its named acceptance scope. The denominators are
+different by design: executed CPU tests for TensorFlow, Bazel-buildable targets
+for Modular, and byte-checked persistent output entries for Linux. This is a
+correctness overview, not a cross-workload timing comparison.
+
 | Workload | Result |
 |----------|--------|
 | TensorFlow 2.15 (unmodified) | Builds; **463/463** CPU `tf_cc_test` targets pass |
